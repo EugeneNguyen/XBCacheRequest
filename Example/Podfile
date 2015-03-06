@@ -1,0 +1,14 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'XBCacheRequest', :exclusive => true do
+  pod "XBCacheRequest", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "XBCacheRequest", :path => "../"
+
+  pod 'Specta'
+  pod 'Expecta'
+  pod 'FBSnapshotTestCase'
+  pod 'Expecta+Snapshots'
+end
