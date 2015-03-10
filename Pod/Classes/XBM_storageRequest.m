@@ -34,6 +34,7 @@
 
 + (XBM_storageRequest *)getCache:(NSString *)url postData:(NSDictionary *)postData
 {
+    if (!postData) postData = @{};
     NSString *postString = [postData JSONString];
     NSArray *result = [XBM_storageRequest getFormat:@"url=%@ and postData=%@" argument:@[url, postString]];
     if ([result count] == 0)
