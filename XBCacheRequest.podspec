@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
-    'XBCacheRequest' => ['Pod/Assets/*.png']
+    'XBCacheRequest' => ['Pod/Assets/*']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'

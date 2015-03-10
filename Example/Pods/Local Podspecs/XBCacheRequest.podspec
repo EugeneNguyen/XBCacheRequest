@@ -9,19 +9,19 @@
 
 Pod::Spec.new do |s|
   s.name             = "XBCacheRequest"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of XBCacheRequest."
+  s.version          = "0.1.1"
+  s.summary          = "XBCache request is an extension of AFNetwork, allow cached post request"
   s.description      = <<-DESC
-                       An optional longer description of XBCacheRequest
+                       XBCache request is an extension of AFNetwork, allow cached post request with several more option
 
                        * Markdown format.
                        * Don't worry about the indent, we strip it!
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/XBCacheRequest"
+  s.homepage         = "https://github.com/EugeneNguyen/XBCacheRequest"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "eugenenguyen" => "xuanbinh91@gmail.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/XBCacheRequest.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/EugeneNguyen/XBCacheRequest.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '7.0'
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
-    'XBCacheRequest' => ['Pod/Assets/*.png']
+    'XBCacheRequest' => ['Pod/Assets/*']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
