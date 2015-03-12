@@ -67,7 +67,7 @@
         {
             [cacheDelegate requestFailed:(XBCacheRequest *)operation];
         }
-        if (callback) callback(self, nil, NO, self.error);
+        if (callback) callback(self, nil, NO, error);
     }];
 }
 
