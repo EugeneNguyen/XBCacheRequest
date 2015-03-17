@@ -12,12 +12,16 @@
 
 @class XBCacheRequest;
 
+typedef BOOL (^XBCacheRequestPreProcessor)(XBCacheRequest * request, NSString * result, BOOL fromCache, NSError * error);
+
 @interface XBCacheRequestManager : NSObject
 {
     
 }
 
 @property (nonatomic, retain) NSString *host;
+@property (nonatomic, assign) BOOL enablePlusIgniter;
+@property (nonatomic, copy) XBCacheRequestPreProcessor callback;
 
 + (XBCacheRequestManager *)sharedInstance;
 - (XBCacheRequest *)requestWithPath:(NSString *)path;

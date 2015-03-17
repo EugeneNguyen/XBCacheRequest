@@ -34,6 +34,14 @@
         XBM_storageRequest *cache = [XBM_storageRequest getCache:self.url postData:_dataPost];
         if (cache)
         {
+            if ([XBCacheRequestManager sharedInstance].callback)
+            {
+                XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
+                if (preprocessor(self, cache.response, YES, nil))
+                {
+                    if (callback) callback(self, cache.response, YES, nil);
+                }
+            }
             if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFinishedWithString:)])
             {
                 [cacheDelegate requestFinishedWithString:cache.response];
@@ -42,7 +50,6 @@
             {
                 [cacheDelegate request:self finishedWithString:cache.response];
             }
-            if (callback) callback(self, cache.response, YES, nil);
         }
     }
     
@@ -62,14 +69,30 @@
         {
             [cacheDelegate request:self finishedWithString:operation.responseString];
         }
-        if (callback) callback(self, operation.responseString, NO, nil);
+        
+        if ([XBCacheRequestManager sharedInstance].callback)
+        {
+            XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
+            if (preprocessor(self, operation.responseString, NO, nil))
+            {
+                if (callback) callback(self, operation.responseString, NO, nil);
+            }
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         isRunning = NO;
         if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFailed:)])
         {
             [cacheDelegate requestFailed:(XBCacheRequest *)operation];
         }
-        if (callback) callback(self, nil, NO, error);
+        
+        if ([XBCacheRequestManager sharedInstance].callback)
+        {
+            XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
+            if (preprocessor(self, nil, NO, error))
+            {
+                if (callback) callback(self, nil, NO, error);
+            }
+        }
     }];
     [request setResponseSerializer:[AFCompoundResponseSerializer serializer]];
 }

@@ -13,6 +13,8 @@ static XBCacheRequestManager *__sharedCacheRequestManager = nil;
 
 @implementation XBCacheRequestManager
 @synthesize host;
+@synthesize enablePlusIgniter;
+@synthesize callback;
 
 + (XBCacheRequestManager *)sharedInstance
 {
