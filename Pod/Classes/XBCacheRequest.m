@@ -88,9 +88,9 @@
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-            if (preprocessor(self, operation.responseString, NO, nil, nil))
+            if (preprocessor(self, operation.responseString, NO, nil, responseObject))
             {
-                if (callback) callback(self, operation.responseString, NO, nil, nil);
+                if (callback) callback(self, operation.responseString, NO, nil, responseObject);
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
