@@ -7,6 +7,7 @@
 //
 
 #import "XBViewController.h"
+#import <XBCacheRequest.h>
 
 @interface XBViewController ()
 
@@ -17,7 +18,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [[XBCacheRequestManager sharedInstance] setHost:@"http://libre.com.vn"];
+    XBCacheRequest *request = XBCacheRequest(@"http://123.com/abc");
+    [request setDataPost:[@{@"foo": @"bar",
+                            @"veryfoor": @"bartoo"} mutableCopy]];
+    [request startAsynchronousWithCallback:^(XBCacheRequest *request, NSString *result, BOOL fromCache, NSError *error) {
+        if (error)
+        {
+            // handle error
+        }
+        else
+        {
+            // handle response
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning

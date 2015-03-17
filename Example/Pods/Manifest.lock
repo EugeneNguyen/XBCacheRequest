@@ -26,8 +26,8 @@ PODS:
     - FBSnapshotTestCase
   - FBSnapshotTestCase (1.5)
   - JSONKit-NoWarning (1.2)
-  - Specta (0.3.2)
-  - XBCacheRequest (0.1.1):
+  - Specta (0.4.0)
+  - XBCacheRequest (0.1.2.4):
     - AFNetworking
     - JSONKit-NoWarning
 
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   Expecta+Snapshots: 4a56b9411c6ed156987072e52c39de67d864015a
   FBSnapshotTestCase: e2914fbaabccea1dcc773d6a16b1c24540642488
   JSONKit-NoWarning: fc8d6dd8ec65e303867d1bd274632fc60a4a8ab9
-  Specta: 698a58ffa5ec948327d3b92eab50ca58d7f4fbe8
-  XBCacheRequest: c2e6759b6b353da4dada3993ea4a248abf6c6743
+  Specta: 1df326d6ec48603c77f507a0ab1f89ad2df1c582
+  XBCacheRequest: 1f1730f86e9b066bcfe5b42732d00547e8d20a71
 
 COCOAPODS: 0.34.4

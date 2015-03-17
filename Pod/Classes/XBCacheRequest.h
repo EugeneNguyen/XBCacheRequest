@@ -7,6 +7,7 @@
 //
 
 #import "AFNetworking.h"
+#import "XBCacheRequestManager.h"
 
 @class XBCacheRequest;
 

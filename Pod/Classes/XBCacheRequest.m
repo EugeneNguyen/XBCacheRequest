@@ -47,7 +47,7 @@
     }
     
     isRunning = YES;
-    [[AFHTTPRequestOperationManager manager] POST:self.url parameters:_dataPost success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPRequestOperation *request = [[AFHTTPRequestOperationManager manager] POST:self.url parameters:_dataPost success:^(AFHTTPRequestOperation *operation, id responseObject) {
         isRunning = NO;
         [XBM_storageRequest addCache:url postData:_dataPost response:operation.responseString];
         if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFinished:)])
@@ -71,6 +71,7 @@
         }
         if (callback) callback(self, nil, NO, error);
     }];
+    [request setResponseSerializer:[AFCompoundResponseSerializer serializer]];
 }
 
 - (id)init
