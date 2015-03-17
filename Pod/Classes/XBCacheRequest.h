@@ -10,8 +10,13 @@
 #import "XBCacheRequestManager.h"
 
 @class XBCacheRequest;
+typedef enum : NSUInteger {
+    XBCacheRequestTypePlain,
+    XBCacheRequestTypeJSON,
+    XBCacheRequestTypeXML,
+} XBCacherequestResponseType;
 
-typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * result, BOOL fromCache, NSError * error);
+typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * result, BOOL fromCache, NSError * error, id object);
 
 @protocol XBCacheRequestDelegate <NSObject>
 
@@ -34,6 +39,7 @@ typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * resul
 @property (nonatomic, assign) id <XBCacheRequestDelegate> cacheDelegate;
 @property (nonatomic, assign) BOOL disableCache;
 @property (nonatomic, assign) BOOL isRunning;
+@property (nonatomic, assign) XBCacherequestResponseType responseType;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url;
 

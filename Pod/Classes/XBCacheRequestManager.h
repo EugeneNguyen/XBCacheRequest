@@ -12,7 +12,7 @@
 
 @class XBCacheRequest;
 
-typedef BOOL (^XBCacheRequestPreProcessor)(XBCacheRequest * request, NSString * result, BOOL fromCache, NSError * error);
+typedef BOOL (^XBCacheRequestPreProcessor)(XBCacheRequest * request, NSString * result, BOOL fromCache, NSError * error, id object);
 
 @interface XBCacheRequestManager : NSObject
 {

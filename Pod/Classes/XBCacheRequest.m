@@ -8,15 +8,18 @@
 
 #import "XBCacheRequest.h"
 #import "XBM_storageRequest.h"
+#import "JSONKit.h"
 
 @implementation XBCacheRequest
 @synthesize dataPost = _dataPost, cacheDelegate, disableCache, url;
 @synthesize isRunning;
+@synthesize responseType;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
     XBCacheRequest *request = [[XBCacheRequest alloc] init];
     request.url = [url absoluteString];
+    request.responseType = XBCacheRequestTypeJSON;
     return request;
 }
 
@@ -37,9 +40,21 @@
             if ([XBCacheRequestManager sharedInstance].callback)
             {
                 XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-                if (preprocessor(self, cache.response, YES, nil))
+                id object = nil;
+                switch (responseType) {
+                    case XBCacheRequestTypeXML:
+                        
+                        break;
+                    case XBCacheRequestTypeJSON:
+                        object = [cache.response objectFromJSONString];
+                        break;
+                        
+                    default:
+                        break;
+                }
+                if (preprocessor(self, cache.response, YES, nil, object))
                 {
-                    if (callback) callback(self, cache.response, YES, nil);
+                    if (callback) callback(self, cache.response, YES, nil, object);
                 }
             }
             if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFinishedWithString:)])
@@ -73,9 +88,9 @@
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-            if (preprocessor(self, operation.responseString, NO, nil))
+            if (preprocessor(self, operation.responseString, NO, nil, nil))
             {
-                if (callback) callback(self, operation.responseString, NO, nil);
+                if (callback) callback(self, operation.responseString, NO, nil, nil);
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -88,13 +103,26 @@
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-            if (preprocessor(self, nil, NO, error))
+            if (preprocessor(self, nil, NO, error, nil))
             {
-                if (callback) callback(self, nil, NO, error);
+                if (callback) callback(self, nil, NO, error, nil);
             }
         }
     }];
-    [request setResponseSerializer:[AFCompoundResponseSerializer serializer]];
+    switch (responseType) {
+        case XBCacheRequestTypeJSON:
+            [request setResponseSerializer:[AFJSONResponseSerializer serializer]];
+            break;
+            
+        case XBCacheRequestTypeXML:
+            [request setResponseSerializer:[AFXMLParserResponseSerializer serializer]];
+            break;
+            
+        default:
+            [request setResponseSerializer:[AFCompoundResponseSerializer serializer]];
+            break;
+    }
+    request.responseSerializer.acceptableContentTypes = [request.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/json", @"text/javascript", @"application/json", @"text/html"]];
 }
 
 - (id)init
