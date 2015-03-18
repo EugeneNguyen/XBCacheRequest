@@ -9,6 +9,7 @@
 #import "XBCacheRequest.h"
 #import "XBM_storageRequest.h"
 #import "JSONKit.h"
+#import "NSObject+deepCopy.h"
 
 @implementation XBCacheRequest
 @synthesize dataPost = _dataPost, cacheDelegate, disableCache, url;
@@ -85,6 +86,11 @@
             [cacheDelegate request:self finishedWithString:operation.responseString];
         }
         
+        if (responseObject)
+        {
+            responseObject = [responseObject deepMutableCopy];
+        }
+        
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
@@ -92,6 +98,10 @@
             {
                 if (callback) callback(self, operation.responseString, NO, nil, responseObject);
             }
+        }
+        else
+        {
+            if (callback) callback(self, operation.responseString, NO, nil, responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         isRunning = NO;
@@ -107,6 +117,10 @@
             {
                 if (callback) callback(self, nil, NO, error, nil);
             }
+        }
+        else
+        {
+            if (callback) callback(self, nil, NO, error, nil);
         }
     }];
     switch (responseType) {

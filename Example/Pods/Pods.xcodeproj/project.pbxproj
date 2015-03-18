@@ -162,6 +162,7 @@
 		B1CE261D4494C7EF52E9E62B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007404B27B5E1315EC072FEC /* MobileCoreServices.framework */; };
 		B42317CB9E81FF2B0A7EF406 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E02456B2EE1DCA4EBF8456 /* JSONKit.m */; };
 		B6480776175271435DCFD3A4 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A42F3CC4AB30096989D69E81 /* UIProgressView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		B69832F71AB96616009AD8B8 /* NSObject+deepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = B69832F61AB96616009AD8B8 /* NSObject+deepCopy.m */; };
 		B70A42D38A8B6A15831E8A5A /* EXPExpect.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EFDFD7218C7CA56B03073F /* EXPExpect.m */; };
 		B85E72710745D375D8D068D2 /* EXPMatchers+beLessThan.h in Headers */ = {isa = PBXBuildFile; fileRef = 88AA95C10C49D98B7A5B1C1D /* EXPMatchers+beLessThan.h */; };
 		B87EEED8891A75DBF05FE03B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1D82B1249FC9C051B2BAF5C /* Foundation.framework */; };
@@ -537,6 +538,8 @@
 		B34863A585A00FAABB72258E /* EXPMatchers+beLessThanOrEqualTo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "EXPMatchers+beLessThanOrEqualTo.m"; path = "Expecta/Matchers/EXPMatchers+beLessThanOrEqualTo.m"; sourceTree = "<group>"; };
 		B480BF0C91481F427EBE1952 /* AFURLSessionManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
 		B4FA38B0A275D91ECDEB8EB3 /* Pods-Tests-FBSnapshotTestCase.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests-FBSnapshotTestCase.xcconfig"; sourceTree = "<group>"; };
+		B69832F51AB96616009AD8B8 /* NSObject+deepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+deepCopy.h"; path = "Pod/Classes/NSObject+deepCopy.h"; sourceTree = "<group>"; };
+		B69832F61AB96616009AD8B8 /* NSObject+deepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+deepCopy.m"; path = "Pod/Classes/NSObject+deepCopy.m"; sourceTree = "<group>"; };
 		B69E4289B8B039DD3A24709C /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFURLResponseSerialization.m; path = AFNetworking/AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		B7859E61425E9BA4D14FA3E4 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
 		B7EDFDCC395B954B946DA983 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1048,6 +1051,8 @@
 				17B2CE45B127BE4ABA64D0FD /* XBPostRequestCacheManager.m */,
 				683B9D00051983CC26C28203 /* Resources */,
 				0CDBFBFAA1BB75ACE05B9609 /* Support Files */,
+				B69832F51AB96616009AD8B8 /* NSObject+deepCopy.h */,
+				B69832F61AB96616009AD8B8 /* NSObject+deepCopy.m */,
 			);
 			name = XBCacheRequest;
 			path = ../..;
@@ -1801,6 +1806,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B69832F71AB96616009AD8B8 /* NSObject+deepCopy.m in Sources */,
 				9A5EBD82CF106CDF2A805A91 /* Pods-Tests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
