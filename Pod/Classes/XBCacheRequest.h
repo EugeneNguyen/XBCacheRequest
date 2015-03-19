@@ -8,6 +8,7 @@
 
 #import "AFNetworking.h"
 #import "XBCacheRequestManager.h"
+#import "MBProgressHUD.h"
 
 @class XBCacheRequest;
 typedef enum : NSUInteger {
@@ -41,6 +42,7 @@ typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * resul
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, assign) XBCacherequestResponseType responseType;
 @property (nonatomic, assign) BOOL disableIndicator;
+@property (nonatomic, retain) MBProgressHUD *hud;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url;
 

@@ -16,6 +16,7 @@
 @synthesize isRunning;
 @synthesize responseType;
 @synthesize disableIndicator;
+@synthesize hud;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
@@ -74,6 +75,7 @@
     if (!disableIndicator) [XBCacheRequestManager showIndicator];
     AFHTTPRequestOperation *request = [[AFHTTPRequestOperationManager manager] POST:self.url parameters:_dataPost success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (!disableIndicator) [XBCacheRequestManager hideIndicator];
+        if (hud) [hud hide:YES];
         
         isRunning = NO;
         [XBM_storageRequest addCache:url postData:_dataPost response:operation.responseString];
@@ -108,6 +110,7 @@
             if (callback) callback(self, operation.responseString, NO, nil, responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (hud) [hud hide:YES];
         isRunning = NO;
         if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFailed:)])
         {
