@@ -43,6 +43,10 @@ typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * resul
 @property (nonatomic, assign) XBCacherequestResponseType responseType;
 @property (nonatomic, assign) BOOL disableIndicator;
 @property (nonatomic, retain) MBProgressHUD *hud;
+@property (nonatomic, retain) NSMutableDictionary *files;
+
+- (void)addFileWithURL:(NSURL *)url key:(NSString *)key;
+- (void)addFileWithData:(NSData *)data key:(NSString *)key fileName:(NSString *)filename mimeType:(NSString *)mimeType;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url;
 

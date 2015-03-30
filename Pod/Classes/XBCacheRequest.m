@@ -18,13 +18,27 @@
 @synthesize disableIndicator;
 @synthesize hud;
 @synthesize responseString = _responseString;
+@synthesize files;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
     XBCacheRequest *request = [[XBCacheRequest alloc] init];
     request.url = [url absoluteString];
     request.responseType = XBCacheRequestTypeJSON;
+    request.files = [@{} mutableCopy];
     return request;
+}
+
+- (void)addFileWithURL:(NSURL *)_url key:(NSString *)key
+{
+    files[key] = _url;
+}
+
+- (void)addFileWithData:(NSData *)data key:(NSString *)key fileName:(NSString *)filename mimeType:(NSString *)mimeType
+{
+    files[key] = @{@"data": data,
+                   @"filename": filename,
+                   @"mimetype": mimeType};
 }
 
 - (void)setCallback:(XBPostRequestCallback)_callback
@@ -74,7 +88,20 @@
     
     isRunning = YES;
     if (!disableIndicator) [XBCacheRequestManager showIndicator];
-    AFHTTPRequestOperation *request = [[AFHTTPRequestOperationManager manager] POST:self.url parameters:_dataPost success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPRequestOperation *request = [[AFHTTPRequestOperationManager manager] POST:self.url parameters:_dataPost constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        for (NSString *key in [self.files allKeys])
+        {
+            id item = self.files[key];
+            if ([item isKindOfClass:[NSDictionary class]])
+            {
+                [formData appendPartWithFileData:item[@"data"] name:key fileName:item[@"filename"] mimeType:item[@"mimetype"]];
+            }
+            else if ([item isKindOfClass:[NSURL class]])
+            {
+                [formData appendPartWithFileURL:[NSURL fileURLWithPath:item] name:key error:nil];
+            }
+        }
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (!disableIndicator) [XBCacheRequestManager hideIndicator];
         if (hud) [hud hide:YES];
         _responseString = operation.responseString;
