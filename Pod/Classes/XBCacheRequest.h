@@ -17,6 +17,13 @@ typedef enum : NSUInteger {
     XBCacheRequestTypeXML,
 } XBCacherequestResponseType;
 
+typedef enum : NSUInteger {
+    XBRestPost = 0,
+    XBRestGet,
+    XBRestPut,
+    XBRestDelete
+} XBRestMethod;
+
 typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * result, BOOL fromCache, NSError * error, id object);
 
 @protocol XBCacheRequestDelegate <NSObject>
@@ -54,5 +61,7 @@ typedef void (^XBPostRequestCallback)(XBCacheRequest * request, NSString * resul
 - (void)startAsynchronousWithCallback:(XBPostRequestCallback)_callback;
 
 + (void)clearCache;
+
++ (void)rest:(XBRestMethod)method table:(NSString *)table object:(NSDictionary *)object callback:(XBPostRequestCallback)_callback;
 
 @end

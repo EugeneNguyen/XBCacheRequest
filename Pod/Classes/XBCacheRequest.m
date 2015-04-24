@@ -176,6 +176,29 @@
     request.responseSerializer.acceptableContentTypes = [request.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/json", @"text/javascript", @"application/json", @"text/html"]];
 }
 
++ (void)rest:(XBRestMethod)method table:(NSString *)table object:(NSDictionary *)object callback:(XBPostRequestCallback)_callback
+{
+    NSString *urlString = [[NSURL URLWithString:@"plusrest" relativeToURL:[NSURL URLWithString:[XBCacheRequestManager sharedInstance].host]] absoluteString];
+    NSDictionary *params = @{@"table": table};
+    AFHTTPRequestOperation *request;
+    switch (method) {
+        case XBRestGet:
+        {
+            request = [[AFHTTPRequestOperationManager manager] GET:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                _callback(nil, operation.responseString, NO, nil, responseObject);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                _callback(nil, operation.responseString, NO, error, nil);
+            }];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    request.responseSerializer = [AFJSONResponseSerializer serializer];
+    request.responseSerializer.acceptableContentTypes = [request.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/json", @"text/javascript", @"application/json", @"text/html"]];
+}
+
 - (id)init
 {
     self = [super init];
