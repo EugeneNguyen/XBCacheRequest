@@ -64,7 +64,7 @@
                         
                         break;
                     case XBCacheRequestTypeJSON:
-                        object = [cache.response objectFromJSONString];
+                        object = [cache.response mutableObjectFromJSONString];
                         break;
                         
                     default:
