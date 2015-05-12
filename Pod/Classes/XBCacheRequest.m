@@ -107,7 +107,6 @@
         _responseString = operation.responseString;
         
         isRunning = NO;
-        [XBM_storageRequest addCache:url postData:_dataPost response:operation.responseString];
         if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFinished:)])
         {
             [cacheDelegate requestFinished:(XBCacheRequest *)operation];
@@ -124,6 +123,7 @@
         if (responseObject)
         {
             responseObject = [responseObject deepMutableCopy];
+            [XBM_storageRequest addCache:url postData:_dataPost response:operation.responseString];
         }
         
         if ([XBCacheRequestManager sharedInstance].callback)
