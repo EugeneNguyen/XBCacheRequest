@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "XBCacheRequest"
-  s.version          = "0.1.2.4"
+  s.version          = "0.5.1.2"
   s.summary          = "XBCache request is an extension of AFNetwork, allow cached post request"
   s.description      = <<-DESC
                        XBCache request is an extension of AFNetwork, allow cached post request with several more option
@@ -36,4 +36,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFNetworking'
   s.dependency 'JSONKit-NoWarning'
+  s.dependency 'MBProgressHUD'
 end

@@ -150,14 +150,14 @@
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-            if (preprocessor(self, nil, NO, error, nil))
+            if (preprocessor(self, operation.responseString, NO, error, nil))
             {
-                if (callback) callback(self, nil, NO, error, nil);
+                if (callback) callback(self, operation.responseString, NO, error, nil);
             }
         }
         else
         {
-            if (callback) callback(self, nil, NO, error, nil);
+            if (callback) callback(self, operation.responseString, NO, error, nil);
         }
     }];
     switch (responseType) {
