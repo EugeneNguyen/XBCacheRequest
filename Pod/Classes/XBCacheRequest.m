@@ -26,6 +26,7 @@
     request.url = [url absoluteString];
     request.responseType = XBCacheRequestTypeJSON;
     request.files = [@{} mutableCopy];
+    request.dataPost = [@{} mutableCopy];
     return request;
 }
 
