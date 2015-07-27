@@ -180,7 +180,7 @@
         
     }];
     [request setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-        NSLog(@"%f", totalBytesWritten / totalBytesExpectedToWrite);
+//        NSLog(@"%f", totalBytesWritten / totalBytesExpectedToWrite);
     }];
     request.responseSerializer.acceptableContentTypes = [request.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/json", @"text/javascript", @"application/json", @"text/html"]];
 }
