@@ -24,7 +24,7 @@
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
-    XBCacheRequest *request = [[XBCacheRequest alloc] init];
+    XBCacheRequest *request = [[XBCacheRequest alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
     request.url = [url absoluteString];
     request.responseType = XBCacheRequestTypeJSON;
     request.files = [@{} mutableCopy];
