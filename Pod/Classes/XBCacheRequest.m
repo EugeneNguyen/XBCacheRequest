@@ -9,7 +9,7 @@
 #import "XBCacheRequest.h"
 #import "XBM_storageRequest.h"
 #import "JSONKit.h"
-#import "NSObject+deepCopy.h"
+#import "XBExtension.h"
 
 @implementation XBCacheRequest
 @synthesize dataPost = _dataPost, cacheDelegate, disableCache, url;
