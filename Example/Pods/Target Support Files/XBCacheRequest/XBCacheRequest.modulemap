@@ -1,0 +1,6 @@
+framework module XBCacheRequest {
+  umbrella header "XBCacheRequest-umbrella.h"
+
+  export *
+  module * { export * }
+}

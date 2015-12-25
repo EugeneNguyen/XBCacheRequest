@@ -7,7 +7,7 @@
 //
 
 #import "XBViewController.h"
-#import <XBCacheRequest.h>
+#import "XBCacheRequest.h"
 
 @interface XBViewController ()
 
@@ -18,19 +18,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[XBCacheRequestManager sharedInstance] setHost:@"http://libre.com.vn"];
-    XBCacheRequest *request = XBCacheRequest(@"http://123.com/abc");
+    [[XBCacheRequestManager sharedInstance] setHost:@"http://188.166.231.94/index.php"];
+    XBCacheRequest *request = XBCacheRequest(@"http://188.166.231.94/index.php/invitation/8/image");
     [request setDataPost:[@{@"foo": @"bar",
                             @"veryfoor": @"bartoo"} mutableCopy]];
-    [request startAsynchronousWithCallback:^(XBCacheRequest *request, NSString *result, BOOL fromCache, NSError *error) {
-        if (error)
-        {
-            // handle error
-        }
-        else
-        {
-            // handle response
-        }
+    [request setMethod:XBRequestMethodGET];
+    [request startAsynchronousWithCallback:^(XBCacheRequest *request, NSString *result, BOOL fromCache, NSError *error, id object) {
+        NSLog(@"%@", object);
     }];
 }
 

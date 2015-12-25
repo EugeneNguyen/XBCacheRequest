@@ -37,7 +37,7 @@ static XBPostRequestCacheManager *__sharedPostRequestCache = nil;
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"XBCacheRequest" ofType:@"bundle"]];
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"XBCacheRequest" ofType:@"bundle"]];
     NSURL *modelURL = [bundle URLForResource:@"XBMRequestCache" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;

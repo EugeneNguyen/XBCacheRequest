@@ -17,20 +17,20 @@
 @synthesize responseType;
 @synthesize disableIndicator;
 @synthesize hud;
-@synthesize responseString = _responseString;
 @synthesize files;
 @synthesize request_;
 @synthesize method;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
-    XBCacheRequest *request = [[XBCacheRequest alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
+    XBCacheRequest *request = [[XBCacheRequest alloc] init];
     request.url = [url absoluteString];
     request.responseType = XBCacheRequestTypeJSON;
     request.files = [@{} mutableCopy];
     request.dataPost = [@{} mutableCopy];
     request.method = XBRequestMethodPOST;
     return request;
+    return nil;
 }
 
 - (void)addFileWithURL:(NSURL *)_url key:(NSString *)key
@@ -92,67 +92,65 @@
     }
     
     // define failed block
-    AFNetworkFailed failed = ^void(AFHTTPRequestOperation *operation, NSError *error) {
+    AFNetworkFailed failed = ^void(NSURLSessionDataTask *task, NSError *error) {
         if (!disableIndicator) [XBCacheRequestManager hideIndicator];
         if (hud) [hud hide:YES];
         isRunning = NO;
-        _responseString = operation.responseString;
+        //        _responseString = operation.responseString;
         if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFailed:)])
         {
-            [cacheDelegate requestFailed:(XBCacheRequest *)operation];
+            [cacheDelegate requestFailed:self];
         }
         
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-            if (preprocessor(self, operation.responseString, NO, error, nil))
+            if (preprocessor(self, nil, NO, error, nil))
             {
-                if (callback) callback(self, operation.responseString, NO, error, nil);
+                if (callback) callback(self, nil, NO, error, nil);
             }
         }
         else
         {
-            if (callback) callback(self, operation.responseString, NO, error, nil);
+            if (callback) callback(self, nil, NO, error, nil);
         }
     };
     
     // define success block
-    AFNetworkSuccess success = ^void(AFHTTPRequestOperation *operation, id responseObject) {
+    AFNetworkSuccess success = ^void(NSURLSessionDataTask *task, id responseObject) {
         if (!disableIndicator) [XBCacheRequestManager hideIndicator];
         if (hud) [hud hide:YES];
-        _responseString = operation.responseString;
         
         isRunning = NO;
         if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFinished:)])
         {
-            [cacheDelegate requestFinished:(XBCacheRequest *)operation];
-        }
-        if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(requestFinishedWithString:)])
-        {
-            [cacheDelegate requestFinishedWithString:operation.responseString];
-        }
-        if (cacheDelegate && [cacheDelegate respondsToSelector:@selector(request:finishedWithString:)])
-        {
-            [cacheDelegate request:self finishedWithString:operation.responseString];
+            [cacheDelegate requestFinished:self];
         }
         
         if (responseObject)
         {
             responseObject = [responseObject deepMutableCopy];
-            [XBM_storageRequest addCache:url postData:_dataPost response:operation.responseString];
+            if ([responseObject isKindOfClass:[NSString class]])
+            {
+                [XBM_storageRequest addCache:url postData:_dataPost response:responseObject];
+            }
+            else if ([responseObject JSONString])
+            {
+                [XBM_storageRequest addCache:url postData:_dataPost response:[responseObject JSONString]];
+            }
         }
         
         if ([XBCacheRequestManager sharedInstance].callback)
         {
             XBCacheRequestPreProcessor preprocessor = [XBCacheRequestManager sharedInstance].callback;
-            if (preprocessor(self, operation.responseString, NO, nil, responseObject))
+            if (preprocessor(self, nil, NO, nil, responseObject))
             {
-                if (callback) callback(self, operation.responseString, NO, nil, responseObject);
+                if (callback) callback(self, nil, NO, nil, responseObject);
             }
         }
         else
         {
-            if (callback) callback(self, operation.responseString, NO, nil, responseObject);
+            if (callback) callback(self, nil, NO, nil, responseObject);
         }
     };
     
@@ -176,40 +174,40 @@
     if (!disableIndicator) [XBCacheRequestManager showIndicator];
     if ([method isEqualToString:XBRequestMethodPOST])
     {
-        request_ = [[AFHTTPRequestOperationManager manager] POST:self.url parameters:_dataPost constructingBodyWithBlock:buildBody success:success failure:failed];
+        [[AFHTTPSessionManager manager] POST:self.url parameters:_dataPost constructingBodyWithBlock:buildBody progress:nil success:success failure:failed];
     }
     else if ([method isEqualToString:XBRequestMethodGET])
     {
-        request_ = [[AFHTTPRequestOperationManager manager] GET:self.url parameters:_dataPost success:success failure:failed];
+        [[AFHTTPSessionManager manager] GET:self.url parameters:_dataPost progress:nil success:success failure:failed];
     }
     else if ([method isEqualToString:XBRequestMethodPUT])
     {
-        request_ = [[AFHTTPRequestOperationManager manager] PUT:self.url parameters:_dataPost success:success failure:failed];
+        [[AFHTTPSessionManager manager] PUT:self.url parameters:_dataPost success:success failure:failed];
     }
     else if ([method isEqualToString:XBRequestMethodDELETE])
     {
-        request_ = [[AFHTTPRequestOperationManager manager] DELETE:self.url parameters:_dataPost success:success failure:failed];
+        [[AFHTTPSessionManager manager] DELETE:self.url parameters:_dataPost success:success failure:failed];
     }
-    switch (responseType) {
-        case XBCacheRequestTypeJSON:
-            [request_ setResponseSerializer:[AFJSONResponseSerializer serializer]];
-            break;
-            
-        case XBCacheRequestTypeXML:
-            [request_ setResponseSerializer:[AFXMLParserResponseSerializer serializer]];
-            break;
-            
-        default:
-            [request_ setResponseSerializer:[AFCompoundResponseSerializer serializer]];
-            break;
-    }
-    [request_ setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        
-    }];
-    [request_ setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-        
-    }];
-    request_.responseSerializer.acceptableContentTypes = [request_.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/json", @"text/javascript", @"application/json", @"text/html"]];
+    //    switch (responseType) {
+    //        case XBCacheRequestTypeJSON:
+    //            [request_ setResponseSerializer:[AFJSONResponseSerializer serializer]];
+    //            break;
+    //            
+    //        case XBCacheRequestTypeXML:
+    //            [request_ setResponseSerializer:[AFXMLParserResponseSerializer serializer]];
+    //            break;
+    //            
+    //        default:
+    //            [request_ setResponseSerializer:[AFCompoundResponseSerializer serializer]];
+    //            break;
+    //    }
+    //    [request_ setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+    //        
+    //    }];
+    //    [request_ setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+    //        
+    //    }];
+    //    request_.responseSerializer.acceptableContentTypes = [request_.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"text/json", @"text/javascript", @"application/json", @"text/html"]];
 }
 
 - (id)init
