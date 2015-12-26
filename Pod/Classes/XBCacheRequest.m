@@ -20,6 +20,7 @@
 @synthesize files;
 @synthesize request_;
 @synthesize method;
+@synthesize responseString;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
@@ -137,6 +138,10 @@
             else if ([responseObject JSONString])
             {
                 [XBM_storageRequest addCache:url postData:_dataPost response:[responseObject JSONString]];
+            }
+            else if ([responseObject isKindOfClass:[NSString class]])
+            {
+                self.responseString = responseObject;
             }
         }
         
