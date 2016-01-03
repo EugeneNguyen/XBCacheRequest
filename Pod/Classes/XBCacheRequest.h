@@ -55,6 +55,7 @@ typedef void (^AFNetworkBuildBody)(id <AFMultipartFormData> formData);
 @property (nonatomic, retain) AFHTTPRequestSerializer *request_;
 @property (nonatomic, retain) NSString *method;
 @property (nonatomic, retain) NSString *responseString;
+@property (nonatomic, retain) NSError *error;
 
 - (void)addFileWithURL:(NSURL *)url key:(NSString *)key;
 - (void)addFileWithData:(NSData *)data key:(NSString *)key fileName:(NSString *)filename mimeType:(NSString *)mimeType;

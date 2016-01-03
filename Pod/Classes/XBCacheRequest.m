@@ -21,6 +21,7 @@
 @synthesize request_;
 @synthesize method;
 @synthesize responseString;
+@synthesize error;
 
 + (XBCacheRequest *)requestWithURL:(NSURL *)url
 {
@@ -95,6 +96,7 @@
     // define failed block
     AFNetworkFailed failed = ^void(NSURLSessionDataTask *task, NSError *error) {
         if (!disableIndicator) [XBCacheRequestManager hideIndicator];
+        self.error = error;
         if (hud) [hud hide:YES];
         isRunning = NO;
         //        _responseString = operation.responseString;
